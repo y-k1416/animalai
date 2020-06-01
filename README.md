@@ -12,10 +12,10 @@
 # 使い方  
 
 # 使ったライブラリ
-# Tab
-pip install tensorflow #2.2.0
-pip install pillow
-pip install flask
-pip install sklearn
+    # Tab
+    pip install tensorflow #2.2.0
+    pip install pillow
+    pip install flask
+    pip install sklearn
 
-end
+    end

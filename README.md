@@ -3,10 +3,13 @@
 
 
 
-### 各pyファイルについて
-- 
--
--
+### 各ファイルについて
+- animal_cnn_aug.py
+- gen_data_augmented.py
+- predictapp.py
+- animal_aug.npy
+- animal_cnn_aug.h5
+
 
 ### 使い方
     # MAC

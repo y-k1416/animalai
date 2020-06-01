@@ -1,0 +1,83 @@
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
+from tensorflow.keras.utils import np_utils
+import numpy as np
+from tensorflow import keras
+
+import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
+classes = ['monkey', 'boar', 'crow']
+num_classes = len(classes)
+image_size = 50
+
+# main
+def main():
+    """
+    メイン実行関数
+    """
+    X_train, X_test, y_train, y_test = np.load('./animal_aug.npy', allow_pickle=True)
+    X_train = X_train.astype('float') / 256
+    X_test = X_test.astype('float') / 256
+    y_train = np_utils.to_categorical(y_train, num_classes)
+    y_test = np_utils.to_categorical(y_test, num_classes)
+
+    model = model_train(X_train, y_train)
+    model_eval(model, X_test, y_test)
+
+def model_train(X, y):
+    """
+    keras model
+    ----------------
+    X: X_train_data
+    y: y_train_data
+    """
+    model = Sequential()
+    model.add(Conv2D(32, (3, 3), padding='same', input_shape=X.shape[1:]))
+    model.add(Activation('relu'))
+    model.add(Conv2D(32, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(64, (3, 3), padding='same'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(64, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    model.add(Dense(512))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(3))
+    model.add(Activation('softmax'))
+
+    opt = keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
+
+    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
+
+    model.fit(X, y, batch_size=124, epochs=40)
+
+    # model save
+    model.save('./animal_cnn_aug.h5')
+
+    return model
+
+def model_eval(model, X, y):
+    """
+    evaluation
+    ------------
+    model : model
+    X : X_test
+    y : y_test
+    """
+    scores = model.evaluate(X, y, verbose=1)
+    print('test loss:',  scores[0])
+    print('test accuracy:', scores[1])
+
+
+if __name__ == '__main__':
+    main()

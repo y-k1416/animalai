@@ -4,15 +4,15 @@ Udemyの講義で学習し作成した<br>
 <br>
 
 ### 各ファイルについて
-- animal_cnn_aug.py
+- animal_cnn_aug.py: 
 単純な畳み込みのtrainファイル
-- gen_data_augmented.py
+- gen_data_augmented.py: 
 データの水増し用のファイル
-- predictapp.py
+- predictapp.py: 
 Flaskで作成した簡易推定アプリケーション
-- animal_aug.npy
+- animal_aug.npy: 
 学習に利用した水増しずみの画像データ
-- animal_cnn_aug.h5
+- animal_cnn_aug.h5: 
 学習ずみのh5ファイル
 
 
